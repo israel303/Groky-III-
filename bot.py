@@ -6,10 +6,10 @@ from PIL import Image
 import io
 import asyncio
 
-# הגדת לוגים
+# הגדרת לוגים
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO'
+    level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
@@ -19,16 +19,16 @@ THUMBNAIL_PATH = 'thumbnail.jpg'
 # כתובת בסיס ל-Webhook
 BASE_URL = os.getenv('BASE_URL', 'https://groky.onrender.com')
 
-# מזהה הערוץ
+# מזהה הערוץ (מוגדר כמשתנה סביבה)
 CHANNEL_ID = os.getenv('CHANNEL_ID', '@chechjfdvhn')
 
-# פורמטים מותרים
+# פורמטים מותרים של מסמכות
 ALLOWED_EXTENSIONS = {'.pdf', '.doc', '.docx', '.txt', '.epub', '.mobi'}
 
-# רישום גרסה של python-telegram-bot
+# רישום גרסת python-telegram-bot
 logger.info(f"Using python-telegram-bot version {TG_VER}")
 
-# פקודת /start'
+# פקודת /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         f"שלום, תורם יקר! 📚\n"
@@ -40,12 +40,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 # פקודת /help
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        'ברוך הבא לקהילה השיתופית שלנו! 📚\n'
-        'ככה תוכל לתרום:\n'
-        '1. שלח לי קובץ ספר (PDF, DOC, DOCX, TXT, EPUB, או MOBI).\n'
-        f'2. הקובץ יפורסם בערוץ {CHANNEL_ID}.\n'
-        '3. תקבל אישור על תרומתך.\n'
-        'שאלות? שלח הודעה, ואני כאן לעזור!'
+        f"ברוך הבא לקהילה השיתופית שלנו! 📚\n"
+        f"ככה תוכל לתרום:\n"
+        f"1. שלח לי קובץ ספר (PDF, DOC, DOCX, TXT, EPUB, או MOBI).\n"
+        f"2. הקובץ יפורסם בערוץ {CHANNEL_ID}.\n"
+        f"3. תקבל אישור על תרומתך.\n"
+        f"שאלות? שלח הודעה, ואני כאן לעזור!"
     )
 
 # הכנת thumbnail
