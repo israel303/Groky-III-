@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 THUMBNAIL_PATH = 'thumbnail.jpg'
 
 # כתובת בסיס ל-Webhook
-BASE_URL = os.getenv('BASE_URL', 'https://groky.onrender.com')
+BASE_URL = os.getenv('BASE_URL', 'https://groky-iii.onrender.com')
 
 # מזהה הערוץ (מוגדר כמשתנה סביבה)
 CHANNEL_ID = os.getenv('CHANNEL_ID')
@@ -158,6 +158,7 @@ async def main():
 
     # הגדרת Webhook
     port = int(os.getenv('PORT', 8443))
+    logger.info(f"Starting webhook on port {port}")
 
     try:
         await application.initialize()
@@ -170,6 +171,7 @@ async def main():
             url_path=token,
             webhook_url=webhook_url
         )
+        logger.info("Webhook server is running")
         while True:
             await asyncio.sleep(3600)
     except Exception as e:
