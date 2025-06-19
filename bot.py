@@ -6,10 +6,10 @@ from PIL import Image
 import io
 import asyncio
 
-# הגדרת לוגים
+# הגדת לוגים
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
+    level=logging.INFO'
 )
 logger = logging.getLogger(__name__)
 
@@ -19,22 +19,22 @@ THUMBNAIL_PATH = 'thumbnail.jpg'
 # כתובת בסיס ל-Webhook
 BASE_URL = os.getenv('BASE_URL', 'https://groky.onrender.com')
 
-# מזהה הערוץ (מוגדר כמשתנה סביבה)
-CHANNEL_ID = os.getenv('CHANNEL_ID', '@elateamk')
+# מזהה הערוץ
+CHANNEL_ID = os.getenv('CHANNEL_ID', '@chechjfdvhn')
 
-# פורמטים מותרים של מסמכות
+# פורמטים מותרים
 ALLOWED_EXTENSIONS = {'.pdf', '.doc', '.docx', '.txt', '.epub', '.mobi'}
 
-# רישום גרסת python-telegram-bot
+# רישום גרסה של python-telegram-bot
 logger.info(f"Using python-telegram-bot version {TG_VER}")
 
-# פקודת /start
+# פקודת /start'
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        'שלום, תורם יקר! 📚\n'
-        'אני בוט שמסייע לשתף ספרים בקהילה השיתופית שלנו.\n'
-        f'שלח לי קובץ ספר (PDF, DOC, וכו'), והוא יפורסם בערוץ {CHANNEL_ID}.\n'
-        'צריך עזרה? הקלד /help.'
+        f"שלום, תורם יקר! 📚\n"
+        f"אני בוט שמסייע לשתף ספרים בקהילה השיתופית שלנו.\n"
+        f"שלח לי קובץ ספר (PDF, DOC, וכו'), והוא יפורסם בערוץ {CHANNEL_ID}.\n"
+        f"צריך עזרה? הקלד /help."
     )
 
 # פקודת /help
