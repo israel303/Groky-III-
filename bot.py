@@ -31,7 +31,7 @@ logger.info(f"Using python-telegram-bot version {TG_VER}")
 # פקודת /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        f"שלום, תורם יקר! 📚\n"
+        f"שלום, תורם יקר!\n"
         f"אני בוט שמסייע לשתף ספרים בקהילה השיתופית שלנו.\n"
         f"שלח לי קובץ ספר (PDF, DOC, וכו'), והוא יפורסם בערוץ {CHANNEL_ID}.\n"
         f"צריך עזרה? הקלד /help."
@@ -40,7 +40,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 # פקודת /help
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        f"ברוך הבא לקהילה השיתופית שלנו! 📚\n"
+        f"ברוך הבא לקהילה השיתופית שלנו!\n"
         f"ככה תוכל לתרום:\n"
         f"1. שלח לי קובץ ספר (PDF, DOC, DOCX, TXT, EPUB, או MOBI).\n"
         f"2. הקובץ יפורסם בערוץ {CHANNEL_ID}.\n"
@@ -71,12 +71,12 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     # בדיקת פורמט הקובץ
     if file_ext not in ALLOWED_EXTENSIONS:
         await update.message.reply_text(
-            'הקובץ אינו ספר! אנא שלח קבצי ספרים בלבד (PDF, DOC, וכו') ואל תשלח קבצים אחרים שוב. 📚'
+            'הקובץ אינו ספר! אנא שלח קבצי ספרים בלבד (PDF, DOC, וכו') ואל תשלח קבצים אחרים שוב.'
         )
         logger.info(f"קובץ לא תקין נשלח: {file_name}")
         return
 
-    await update.message.reply_text('מעבד את תרומת הספר שלך, רגע אחד... 📚')
+    await update.message.reply_text('מעבד את תרומת הספר שלך, רגע אחד...')
 
     try:
         # הורדת הקובץ
@@ -105,17 +105,17 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         os.remove(input_file)
 
         # אישור למשתמש
-        await update.message.reply_text('תודה על תרומתך 📚')
+        await update.message.reply_text('תודה על תרומתך')
 
     except Exception as e:
         logger.error(f"שגיאה בטיפול בקובץ: {e}")
-        await update.message.reply_text('אוי, משהו השתבש עם תרומת הספר. אנא נסה שוב! 📚')
+        await update.message.reply_text('אוי, משהו השתבש עם תרומת הספר. אנא נסה שוב!')
 
 # טיפול בשגיאות
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.error(f'עדכון {update} גרם לשגיאה: {context.error}')
     if update and update.message:
-        await update.message.reply_text('אוי, משהו השתבש. אנא נסה לתרום את הספר שוב! 📚')
+        await update.message.reply_text('אוי, משהו השתבש. אנא נסה לתרום את הספר שוב!')
 
 # פונקציה ראשית
 async def main():
