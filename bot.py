@@ -21,24 +21,24 @@ THUMBNAIL_PATH = 'thumbnail.jpg'
 BASE_URL = os.getenv('BASE_URL', 'https://groky-iii.onrender.com')
 ALLOWED_EXTENSIONS = {'.pdf', '.doc', '.docx', '.txt', '.epub', '.mobi'}
 
+CHANNEL_ID = -1002627506870  # מזהה הערוץ הוכנס ישירות בקוד
+
 logger.info(f"Using python-telegram-bot version {TG_VER}")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    channel_id = context.bot_data.get("CHANNEL_ID", "הערוץ שלנו")
     await update.message.reply_text(
         "שלום, תורם יקר!\n"
         "אני בוט שמסייע לשתף ספרים בקהילה השיתופית שלנו.\n"
-        f"שלח לי קובץ ספר (PDF, DOC, וכו'), והוא יפורסם בערוץ {channel_id}.\n"
+        f"שלח לי קובץ ספר (PDF, DOC, וכו'), והוא יפורסם בערוץ {CHANNEL_ID}.\n"
         "צריך עזרה? הקלד /help."
     )
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    channel_id = context.bot_data.get("CHANNEL_ID", "הערוץ שלנו")
     await update.message.reply_text(
         "ברוך הבא לקהילה השיתופית שלנו!\n"
         "ככה תוכל לתרום:\n"
         "1. שלח לי קובץ ספר (PDF, DOC, DOCX, TXT, EPUB, או MOBI).\n"
-        f"2. הקובץ יפורסם בערוץ {channel_id}.\n"
+        f"2. הקובץ יפורסם בערוץ {CHANNEL_ID}.\n"
         "3. תקבל אישור על תרומתך.\n"
         "שאלות? שלח הודעה, ואני כאן לעזור!"
     )
@@ -81,15 +81,9 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         base, ext = os.path.splitext(original_filename)
         new_filename = f"{base}_SharedBook{ext}"
 
-        channel_id = context.bot_data.get("CHANNEL_ID")
-        if not channel_id:
-            logger.error("CHANNEL_ID לא הוגדר בבוט.")
-            await update.message.reply_text("שגיאה פנימית: לא הוגדר ערוץ יעד.")
-            return
-
         with open(input_file, 'rb') as f:
             await context.bot.send_document(
-                chat_id=channel_id,
+                chat_id=CHANNEL_ID,
                 document=f,
                 filename=new_filename,
                 thumbnail=thumb_io if thumb_io else None
@@ -117,18 +111,12 @@ async def main():
         logger.error("TELEGRAM_TOKEN לא הוגדר!")
         return
 
-    channel_id = os.getenv('CHANNEL_ID')
-    if not channel_id:
-        logger.error("CHANNEL_ID לא הוגדר!")
-        return
-
     webhook_url = f"{BASE_URL}/{token}"
     if not webhook_url.startswith('https://'):
         logger.error("BASE_URL חייב להתחיל ב-https://!")
         return
 
     application = Application.builder().token(token).build()
-    application.bot_data["CHANNEL_ID"] = channel_id
 
     application.add_handler(CommandHandler('start', start))
     application.add_handler(CommandHandler('help', help_command))
